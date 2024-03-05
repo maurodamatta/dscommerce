@@ -3,7 +3,7 @@ package com.devsuperior.dscommerce.controllers;
 import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.entities.Product;
 import com.devsuperior.dscommerce.services.ProductService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping(value = "/products")
 public class ProductController {

@@ -5,7 +5,7 @@ import com.devsuperior.dscommerce.entities.Product;
 import com.devsuperior.dscommerce.repositories.ProductRepository;
 import com.devsuperior.dscommerce.services.exceptions.DatabaseException;
 import com.devsuperior.dscommerce.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,10 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 @Service
 public class ProductService {
 
@@ -27,12 +23,14 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Product product = repository.findById(id).orElseThrow(
+        @SuppressWarnings("null")
+		Product product = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
         return new ProductDTO(product);
     }
 
-    @Transactional(readOnly = true)
+    @SuppressWarnings("null")
+	@Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable) {
         Page<Product> result = repository.findAll(pageable);
         return result.map(x -> new ProductDTO(x));
@@ -49,7 +47,8 @@ public class ProductService {
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
-            Product entity = repository.getReferenceById(id);
+            @SuppressWarnings("null")
+			Product entity = repository.getReferenceById(id);
             copyDtoToEntity(dto, entity);
             entity = repository.save(entity);
             return new ProductDTO(entity);
@@ -66,7 +65,8 @@ public class ProductService {
         entity.setImgUrl(dto.getImgUrl());
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @SuppressWarnings("null")
+	@Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
         try {
             repository.deleteById(id);
