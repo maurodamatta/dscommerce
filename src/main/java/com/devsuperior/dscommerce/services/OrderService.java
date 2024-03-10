@@ -2,8 +2,6 @@ package com.devsuperior.dscommerce.services;
 
 import java.time.Instant;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -36,10 +34,14 @@ public class OrderService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private AuthService authService;
+	
 	@Transactional(readOnly = true)
     public OrderDTO findById(@NonNull Long id) {
 		Order order = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
+		authService.validateSelfOrAdmin(order.getClient().getId());
         return new OrderDTO(order);
     }
 
